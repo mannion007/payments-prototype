@@ -1,0 +1,20 @@
+version: "2"
+
+services:
+  wiremock:
+    image: rodolpheche/wiremock:2.25.1-alpine
+    volumes:
+      - ./wiremock/mappings/:/home/wiremock/mappings
+    entrypoint:
+      [
+        "/docker-entrypoint.sh",
+        "--verbose",
+        "--global-response-templating",
+        "--no-request-journal",
+      ]
+    ports:
+      - "8080:8080"
+  rabbit:
+    image: rabbitmq:3
+    ports:
+      - 5672:5672
