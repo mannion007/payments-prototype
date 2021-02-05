@@ -71,7 +71,7 @@ func main() {
 			Multiplier:      2.0,
 		}.Middleware, // retry upto 10 times with a backoff duration 1s, 2s, 4s, 8s...
 		middleware.Recoverer, // recovers from panics in handlers, enabling the message to be retried
-		middleware.NewThrottle(10, time.Second).Middleware, // slow down the processing to 10 messages per second
+		middleware.NewThrottle(100, time.Second).Middleware, // slow down the processing to 10 messages per second
 	)
 
 	// instantiate the handler
@@ -79,7 +79,7 @@ func main() {
 	takePaymentHandler := handler.NewClaimPayment(processor)
 
 	// start publishing messages
-	go publishMessages(publisher)
+	//go publishMessages(publisher)
 
 	// add a handler for taking payments to the router
 	router.AddHandler(
