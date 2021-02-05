@@ -22,7 +22,6 @@ const (
 	amqpURI      = "amqp://guest:guest@localhost:5672/"
 	commandTopic = "payment_commands"
 	eventTopic   = "payment_events"
-	poisonQueue  = "poison"
 )
 
 var (
@@ -72,6 +71,7 @@ func main() {
 			Multiplier:      2.0,
 		}.Middleware, // retry upto 10 times with a backoff duration 1s, 2s, 4s, 8s...
 		middleware.Recoverer, // recovers from panics in handlers, enabling the message to be retried
+		middleware.NewThrottle(10, time.Second).Middleware, // slow down the processing to 10 messages per second
 	)
 
 	// instantiate the handler
@@ -117,7 +117,7 @@ func publishMessages(publisher message.Publisher) {
 	}
 
 	for {
-		time.Sleep(time.Duration(time.Second)) // throttle the messages for development
+		//time.Sleep(time.Duration(time.Second)) // throttle the messages for development
 
 		msg := message.NewMessage(watermill.NewUUID(), buf)
 		middleware.SetCorrelationID(watermill.NewUUID(), msg)
@@ -132,6 +132,7 @@ func publishMessages(publisher message.Publisher) {
 
 // [DEBUG] output information about a message
 func printMessages(msg *message.Message) error {
-	log.Printf("receive message %s payload: %s metadata: %v\n", msg.UUID, string(msg.Payload), msg.Metadata)
+	log.Printf("receive message %s metadata: %v\n", msg.UUID, msg.Metadata)
+
 	return nil
 }
