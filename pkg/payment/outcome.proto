@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+option go_package = "github.com/mannion007/payments-prototype/payment;payment";
+
+package payment;
+
+message Outcome {
+    string vendor_reference = 1;
+    bool success = 2;
+}

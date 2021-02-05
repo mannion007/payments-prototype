@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+option go_package = "github.com/mannion007/payments-prototype/payment;payment";
+
+package payment;
+
+
+message Claim {
+    
+    message MonetaryAmount {
+        string currency = 1;
+        int32 value = 2;
+    }
+
+    message ExpirationDate {
+        int32 year = 1;
+        int32 month = 2;
+    }
+
+    message Card {
+        string number = 1;
+        ExpirationDate expires_at = 2;
+    }
+    
+    string payee = 1;
+    MonetaryAmount amount = 2;
+    Card payer = 3;
+}

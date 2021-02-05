@@ -13,6 +13,6 @@
       "headers": {
         "Content-Type": "application/json; charset=utf-8"
       },
-      "body": "{\"reference\": \"123456\"}"
+      "body": "{\"reference\": \"{{randomValue type='UUID'}}\",\"success\":true}"
     }
   }
