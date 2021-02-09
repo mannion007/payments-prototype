@@ -69,10 +69,6 @@ func main() {
 	}
 	defer subscriber.Close()
 
-	if err != nil {
-		panic(err)
-	}
-
 	// [DEBUG] print all the events produced
 	router.AddNoPublisherHandler(
 		"print_outgoing_messages",
