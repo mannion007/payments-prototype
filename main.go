@@ -2,6 +2,8 @@ package main
 
 import (
 	"context"
+	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"log"
 	stdHttp "net/http"
@@ -13,7 +15,6 @@ import (
 	"github.com/ThreeDotsLabs/watermill/message"
 	"github.com/ThreeDotsLabs/watermill/message/router/middleware"
 	"github.com/ThreeDotsLabs/watermill/message/router/plugin"
-	"github.com/google/uuid"
 	"github.com/mannion007/payments-prototype/pkg/handler"
 	"github.com/mannion007/payments-prototype/pkg/payment"
 	"github.com/mannion007/payments-prototype/pkg/processor"
@@ -49,7 +50,7 @@ func main() {
 			UnmarshalMessageFunc: func(topic string, request *stdHttp.Request) (*message.Message, error) {
 				b, err := ioutil.ReadAll(request.Body)
 				if err != nil {
-					return nil, err
+					return nil, fmt.Errorf("failed to decode http payload, %s", err.Error())
 				}
 
 				return message.NewMessage(watermill.NewUUID(), b), nil
@@ -110,18 +111,26 @@ func main() {
 		commandTopic,
 		publisher,
 		func(msg *message.Message) ([]*message.Message, error) {
-			// todo - make this interpret the web request and build the command from it (this is all just hard coded)
-			payee := uuid.New()
 
+			// unmarshall vlaim request from json (from web request)
+			cr := &handler.ClaimRequest{}
+			json.Unmarshal(msg.Payload, cr)
+			if err != nil {
+				return nil, fmt.Errorf("failed to unmarshal http payload, %s", err.Error())
+			}
+
+			// instatiate claim from request
 			claim := &payment.Claim{
-				Payee:  payee.String(),
-				Amount: &payment.Claim_MonetaryAmount{Currency: "GBP", Value: 10000},
+				ID:     cr.IdempotencyToken,
+				Payee:  cr.PayeeId,
+				Amount: &payment.Claim_MonetaryAmount{Currency: cr.Amount.Currency, Value: cr.Amount.Value},
 				Payer: &payment.Claim_Card{
-					Number:    "13656978",
-					ExpiresAt: &payment.Claim_ExpirationDate{Year: 2025, Month: 12},
+					Number:    cr.Card.Number,
+					ExpiresAt: &payment.Claim_ExpirationDate{Year: cr.Card.Expiry.Year, Month: cr.Card.Expiry.Month},
 				},
 			}
 
+			// marshall claim to protobuf (for message bus)
 			buf, err := proto.Marshal(claim)
 			if err != nil {
 				panic(err)
@@ -151,7 +160,7 @@ func main() {
 		_ = httpSubscriber.StartHTTPServer()
 	}()
 
-	// Run the router
+	// run the router
 	if err := router.Run(context.Background()); err != nil {
 		panic(err)
 	}
@@ -159,7 +168,15 @@ func main() {
 
 // [DEBUG] output information about a message
 func printMessages(msg *message.Message) error {
-	log.Printf("receive message %s metadata: %v\n", msg.UUID, msg.Metadata)
+
+	outcome := &payment.Outcome{}
+
+	err := proto.Unmarshal(msg.Payload, outcome)
+	if err != nil {
+		return fmt.Errorf("failed to unmarshal outcome")
+	}
+
+	log.Printf("outcome reached reference: %s, success: %t", outcome.VendorReference, outcome.Success)
 
 	return nil
 }

@@ -21,17 +21,17 @@ func (tph ClaimPayment) Process(msg *message.Message) ([]*message.Message, error
 
 	err := proto.Unmarshal(msg.Payload, &claim)
 	if err != nil {
-		panic(err)
+		return nil, fmt.Errorf("failed to unmarshal message, %s", err)
 	}
 
 	outcome, err := tph.Processor.Process(&claim)
 	if err != nil {
-		return nil, fmt.Errorf("error when processing command [%s]", err)
+		return nil, fmt.Errorf("error when processing message, %s", err)
 	}
 
 	payload, err := proto.Marshal(outcome)
 	if err != nil {
-		return nil, fmt.Errorf("failed to encode outcome %s", err.Error())
+		return nil, fmt.Errorf("failed to marshal message, %s", err.Error())
 	}
 
 	event := message.NewMessage(watermill.NewUUID(), payload)

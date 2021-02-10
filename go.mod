@@ -11,5 +11,7 @@ require (
 	github.com/google/uuid v1.2.0
 	github.com/lithammer/shortuuid/v3 v3.0.5 // indirect
 	github.com/streadway/amqp v1.0.0 // indirect
+	github.com/stripe/stripe-go v70.15.0+incompatible
+	github.com/stripe/stripe-go/v72 v72.33.0 // indirect
 	google.golang.org/protobuf v1.25.0
 )
