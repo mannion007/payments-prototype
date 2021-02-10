@@ -64,7 +64,15 @@ func (stripeProc StripeProcessor) Process(c *payment.Claim) (*payment.Outcome, e
 // NewStripeProcessor is a facotry for a StripeProcessor with sensible defaults
 func NewStripeProcessor() *StripeProcessor {
 
-	stripe.Key = ""
+	stripe.Key = "sk_test_123"
+
+	config := &stripe.BackendConfig{
+		URL: "http://localhost:12111",
+	}
+
+	be := stripe.GetBackendWithConfig(stripe.APIBackend, config)
+
+	stripe.SetBackend(stripe.APIBackend, be)
 
 	return &StripeProcessor{}
 }

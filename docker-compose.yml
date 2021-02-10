@@ -1,19 +1,10 @@
 version: "2"
 
 services:
-  wiremock:
-    image: rodolpheche/wiremock:2.25.1-alpine
-    volumes:
-      - ./wiremock/mappings/:/home/wiremock/mappings
-    entrypoint:
-      [
-        "/docker-entrypoint.sh",
-        "--verbose",
-        "--global-response-templating",
-        "--no-request-journal",
-      ]
+  stripe-mock:
+    image: stripemock/stripe-mock:latest
     ports:
-      - "8080:8080"
+      - "12111-12112:12111-12112"
   rabbit:
     image: rabbitmq:3-management
     ports:
