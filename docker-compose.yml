@@ -4,7 +4,7 @@ services:
   wiremock:
     image: rodolpheche/wiremock:2.25.1-alpine
     volumes:
-      - ./wiremock/mappings/:/home/wiremock/mappings
+      - ./wiremock:/home/wiremock/mappings
     entrypoint:
       [
         "/docker-entrypoint.sh",
