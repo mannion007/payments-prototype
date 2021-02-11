@@ -1,0 +1,18 @@
+{
+    "request": {
+      "method": "POST",
+      "url": "/v1/charges",
+      "bodyPatterns": [
+        {
+          "contains": "1234"
+        }
+      ]
+    },
+    "response": {
+      "status": 200,
+      "headers": {
+        "Content-Type": "application/json; charset=utf-8"
+      },
+      "body": "{\n  \"id\": \"ch_1IIc7hJo7WXNEnYBMwvIUQcN\",\n  \"object\": \"charge\",\n  \"amount\": 2000,\n  \"amount_captured\": 2000,\n  \"amount_refunded\": 0,\n  \"application\": null,\n  \"application_fee\": null,\n  \"application_fee_amount\": null,\n  \"balance_transaction\": \"txn_1IIc7hJo7WXNEnYBsTlswZLa\",\n  \"billing_details\": {\n    \"address\": {\n      \"city\": null,\n      \"country\": null,\n      \"line1\": null,\n      \"line2\": null,\n      \"postal_code\": null,\n      \"state\": null\n    },\n    \"email\": null,\n    \"name\": null,\n    \"phone\": null\n  },\n  \"calculated_statement_descriptor\": \"Stripe\",\n  \"captured\": true,\n  \"created\": 1612799881,\n  \"currency\": \"gbp\",\n  \"customer\": null,\n  \"description\": \"My First Test Charge (created for API docs)\",\n  \"disputed\": false,\n  \"failure_code\": null,\n  \"failure_message\": null,\n  \"fraud_details\": {},\n  \"invoice\": null,\n  \"livemode\": false,\n  \"metadata\": {},\n  \"on_behalf_of\": null,\n  \"order\": null,\n  \"outcome\": {\n    \"network_status\": \"approved_by_network\",\n    \"reason\": null,\n    \"risk_level\": \"normal\",\n    \"risk_score\": 45,\n    \"seller_message\": \"Payment complete.\",\n    \"type\": \"authorized\"\n  },\n  \"paid\": true,\n  \"payment_intent\": null,\n  \"payment_method\": \"card_1IIc7hJo7WXNEnYBLP1NOIe1\",\n  \"payment_method_details\": {\n    \"card\": {\n      \"brand\": \"visa\",\n      \"checks\": {\n        \"address_line1_check\": null,\n        \"address_postal_code_check\": null,\n        \"cvc_check\": null\n      },\n      \"country\": \"US\",\n      \"exp_month\": 2,\n      \"exp_year\": 2022,\n      \"fingerprint\": \"NW0AoTYlUXna8hW6\",\n      \"funding\": \"credit\",\n      \"installments\": null,\n      \"last4\": \"4242\",\n      \"network\": \"visa\",\n      \"three_d_secure\": null,\n      \"wallet\": null\n    },\n    \"type\": \"card\"\n  },\n  \"receipt_email\": null,\n  \"receipt_number\": null,\n  \"receipt_url\": \"https://pay.stripe.com/receipts/acct_1IGoQsJo7WXNEnYB/ch_1IIc7hJo7WXNEnYBMwvIUQcN/rcpt_IuQzpquy3PBmQLwoQxNtuuyPZVh6fv5\",\n  \"refunded\": false,\n  \"refunds\": {\n    \"object\": \"list\",\n    \"data\": [],\n    \"has_more\": false,\n    \"url\": \"/v1/charges/ch_1IIc7hJo7WXNEnYBMwvIUQcN/refunds\"\n  },\n  \"review\": null,\n  \"shipping\": null,\n  \"source_transfer\": null,\n  \"statement_descriptor\": null,\n  \"statement_descriptor_suffix\": null,\n  \"status\": \"succeeded\",\n  \"transfer_data\": null,\n  \"transfer_group\": null,\n  \"source\": \"tok_amex\"\n}"
+    }
+  }

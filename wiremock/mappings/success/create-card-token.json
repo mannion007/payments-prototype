@@ -1,0 +1,18 @@
+{
+    "request": {
+      "method": "POST",
+      "url": "/v1/tokens",
+      "bodyPatterns": [
+        {
+          "contains": "4242424242424242"
+        }
+      ]
+    },
+    "response": {
+      "status": 200,
+      "headers": {
+        "Content-Type": "application/json; charset=utf-8"
+      },
+      "body": "{\n  \"id\": \"tok_1IHAtVJo7WXNEnYBLwmavXHq\",\n  \"object\": \"token\",\n  \"card\": {\n    \"id\": \"card_1IHAtVJo7WXNEnYBK1diVds0\",\n    \"object\": \"card\",\n    \"address_city\": null,\n    \"address_country\": null,\n    \"address_line1\": null,\n    \"address_line1_check\": null,\n    \"address_line2\": null,\n    \"address_state\": null,\n    \"address_zip\": null,\n    \"address_zip_check\": null,\n    \"brand\": \"Visa\",\n    \"country\": \"US\",\n    \"cvc_check\": \"pass\",\n    \"dynamic_last4\": null,\n    \"exp_month\": 8,\n    \"exp_year\": 2022,\n    \"fingerprint\": \"NW0AoTYlUXna8hW6\",\n    \"funding\": \"credit\",\n    \"last4\": \"4242\",\n    \"metadata\": {},\n    \"name\": null,\n    \"tokenization_method\": null\n  },\n  \"client_ip\": null,\n  \"created\": 1612456885,\n  \"livemode\": false,\n  \"type\": \"card\",\n  \"used\": false\n}"
+    }
+  }

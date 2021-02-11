@@ -67,7 +67,7 @@ func NewStripeProcessor() *StripeProcessor {
 	stripe.Key = "sk_test_123"
 
 	config := &stripe.BackendConfig{
-		URL: "http://localhost:12111",
+		URL: "http://localhost:8080",
 	}
 
 	be := stripe.GetBackendWithConfig(stripe.APIBackend, config)
